@@ -17,8 +17,16 @@ namespace RationalNumbers
 
         public RationalNumber(int numerator, int denominator)
         {
-            this.Numerator = numerator;
-            this.Denominator = denominator;
+            if (denominator == 0)
+                throw new ArgumentException("Denominator cannot be zero."); //todo: test this
+
+            Numerator = numerator
+                .DivideByGcd(numerator, denominator)
+                .ToProperNegativeForm(denominator);
+
+            Denominator = denominator
+                .DivideByGcd(numerator, denominator)
+                .ToProperNegativeForm(denominator);
         }
 
         public static IRationalNumber operator +(RationalNumber r1, RationalNumber r2) => r1.Add(r2);
@@ -84,14 +92,15 @@ namespace RationalNumbers
 
         public override bool Equals(object obj)
         {
-            //return base.Equals(obj); // replace this with the correct expression or remove
             var number = obj as IRationalNumber;
+            if (number == null)
+                return false;
             return this.Numerator * number.Denominator == this.Denominator * number.Numerator;
         }
 
         public override int GetHashCode()
         {
-            return base.GetHashCode(); // replace this with the correct expression or remove
+            return (Numerator / Denominator + Denominator / Numerator) * 100;
         }
 
         // plus any other methods you deem necessary to meet the specification
