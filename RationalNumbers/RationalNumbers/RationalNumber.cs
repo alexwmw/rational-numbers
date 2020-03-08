@@ -1,4 +1,5 @@
 ﻿using System;
+using InternalExtensions;
 
 namespace RationalNumbers
 {
@@ -15,7 +16,7 @@ namespace RationalNumbers
         public RationalNumber(int numerator, int denominator)
         {
             this.Numerator = numerator;
-            this.Denominator = denominator;
+            this.Denominator = Math.Abs(denominator);
             //throw new NotImplementedException("You need to implement this operator.");
         }
 
@@ -32,11 +33,6 @@ namespace RationalNumbers
             throw new NotImplementedException("You need to implement this function.");
         }
 
-        private IRationalNumber Reduce()
-        {
-            throw new NotImplementedException("You need to implement this function.");
-        }
-
         public IRationalNumber ExpRational(int power)
         {
             throw new NotImplementedException("You need to implement this function.");
@@ -47,10 +43,16 @@ namespace RationalNumbers
             throw new NotImplementedException("You need to implement this function.");
         }
 
-        public IRationalNumber Add(IRationalNumber number)
-        {
-            throw new NotImplementedException();
-        }
+        /**
+         * The sum of two rational numbers r1 = a1/b1 and r2 = a2/b2 is r1 + r2 =
+         * a1/b1 + a2/b2 = (a1 * b2 + a2 * b1) / (b1 * b2).
+         */
+        public IRationalNumber Add(IRationalNumber number) =>
+            new RationalNumber(
+                this.Numerator * number.Denominator + this.Denominator * number.Numerator,
+                number.Numerator * number.Denominator);
+            
+
 
         public IRationalNumber Subtract(IRationalNumber number)
         {

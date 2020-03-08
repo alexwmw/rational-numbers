@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using InternalExtensions;
 
 namespace RationalNumbers.Test
 {
@@ -12,21 +13,21 @@ namespace RationalNumbers.Test
             Assert.AreEqual(new RationalNumber(7, 6), new RationalNumber(1, 2) + new RationalNumber(2, 3));
         }
 
-        [Ignore("Skip")]
+        
         [TestMethod]
         public void Add_a_positive_rational_number_and_a_negative_rational_number()
         {
             Assert.AreEqual(new RationalNumber(-1, 6), new RationalNumber(1, 2) + new RationalNumber(-2, 3));
         }
 
-        [Ignore("Skip")]
+        
         [TestMethod]
         public void Add_two_negative_rational_numbers()
         {
             Assert.AreEqual(new RationalNumber(-7, 6), new RationalNumber(-1, 2) + new RationalNumber(-2, 3));
         }
 
-        [Ignore("Skip")]
+        [Ignore("Skip")] // Should be fixed once new rational numbers are reduced by default
         [TestMethod]
         public void Add_a_rational_number_to_its_additive_inverse()
         {
