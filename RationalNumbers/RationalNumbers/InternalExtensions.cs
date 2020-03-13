@@ -21,6 +21,23 @@ namespace InternalExtensions
 
         internal static int ToProperNegativeForm(this int original, int denominator) =>
             denominator < 0 ? -original : original;
+
+        internal static int Abs(this int integer) //todo: this can be improved or just use Math
+        {
+            if (integer == 0)
+                return 0;
+
+            int square = integer * integer;
+
+            int i;
+            int j = 1;
+            for(i = 1; j <= square;)
+            {
+                i++;
+                j = i * i;
+            }
+            return i - 1;
+        }
         
     }
 }

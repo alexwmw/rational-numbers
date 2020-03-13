@@ -38,7 +38,9 @@ namespace RationalNumbers
 
         public IRationalNumber Abs()
         {
-            throw new NotImplementedException("You need to implement this function.");
+            int num = Numerator.Abs();
+            int den = Denominator.Abs();
+            return new RationalNumber(num, den);
         }
 
         public IRationalNumber ExpRational(int power)
