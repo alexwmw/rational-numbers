@@ -59,7 +59,6 @@ namespace RationalNumbers
         public IRationalNumber Add(IRationalNumber number) {
             int num = this.Numerator * number.Denominator + this.Denominator * number.Numerator;
             int den = this.Denominator * number.Denominator;
-
             return new RationalNumber(num, den);
         }
 
@@ -72,7 +71,6 @@ namespace RationalNumbers
         {
             int num = this.Numerator * number.Denominator - this.Denominator * number.Numerator;
             int den = this.Denominator * number.Denominator;
-
             return new RationalNumber(num, den);
         }
 
@@ -84,16 +82,19 @@ namespace RationalNumbers
         {
             int num = this.Numerator * number.Numerator;
             int den = this.Denominator * number.Denominator;
-
             return new RationalNumber(num, den);
         }
 
-        
+
         /**
+         * Dividing a rational number r1 = a1/b1 by another r2 = a2/b2 is r1 / r2 =
+         * (a1 * b2) / (a2 * b1) if a2 * b1 is not zero.
          */
         public IRationalNumber Divide(IRationalNumber number)
         {
-            throw new NotImplementedException();
+            int num = this.Numerator * number.Denominator;
+            int den = number.Numerator * this.Denominator;
+            return new RationalNumber(num, den);
         }
 
         public override string ToString()
