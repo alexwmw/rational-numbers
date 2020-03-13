@@ -9,9 +9,9 @@ namespace RationalNumbers
         public int Numerator { get; private set; }
         public int Denominator { get; private set; }
 
-        public RationalNumber(int numerator)
+        public RationalNumber(int numerator) : this(numerator, 1)
         {
-            throw new NotImplementedException("You need to implement this operator.");
+            
         }
 
         public RationalNumber(int numerator, int denominator)
@@ -20,12 +20,8 @@ namespace RationalNumbers
                 throw new DivideByZeroException(); //todo: test this
 
             Numerator = numerator;
-            //.ToProperNegativeForm(denominator);
 
             Denominator = denominator;
-            //.ToProperNegativeForm(denominator);
-
-            //this.reduce();
 
         }
 
@@ -55,13 +51,6 @@ namespace RationalNumbers
         {
             Numerator.DivideByGcd(this);
             Denominator.DivideByGcd(this);
-            return this;
-        }
-
-        internal IRationalNumber ToProperNegativeForm()
-        {
-            Numerator.ToProperNegativeForm(this);
-            Denominator.ToProperNegativeForm(this);
             return this;
         }
 
@@ -123,10 +112,10 @@ namespace RationalNumbers
 
         public override bool Equals(object obj)
         {
-            var number = obj as IRationalNumber;
-            if (number == null)
+            if (obj == null)
                 return false;
 
+            IRationalNumber number = obj as IRationalNumber;
             return this.Numerator * number.Denominator
                 == this.Denominator * number.Numerator;
         }
@@ -146,17 +135,14 @@ namespace RationalNumbers
         public static double ExpReal(this int intNumber, RationalNumber r)
             => r.ExpReal(intNumber);
 
-        internal static int DivideByGcd(this int intNumber, IRationalNumber number)
-            => intNumber / GcdOf(number.Numerator, number.Denominator);
-
-        internal static int ToProperNegativeForm(this int intNumber, IRationalNumber number)
-            => number.Denominator < 0 ? -intNumber : intNumber;
-
         internal static int Pow(this int intNumber, int power)
             => (int)Math.Pow(intNumber, power);
 
         internal static int Abs(this int intNumber)
             => Math.Abs(intNumber);
+
+        internal static int DivideByGcd(this int intNumber, IRationalNumber number)
+            => intNumber / GcdOf(number.Numerator, number.Denominator);
 
         private static int GcdOf(int numerator, int denominator)
             => denominator == 0

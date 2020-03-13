@@ -271,5 +271,14 @@ namespace RationalNumbers.Test
         {
             Assert.AreEqual(new RationalNumber(1, 1), new RationalNumber(13, 13).Reduce());
         }
+
+
+        [TestMethod]
+        public void ThrowsExceptionIfDenominatorIsZero()
+        {
+            RationalNumber number;
+            Assert.ThrowsException<DivideByZeroException>
+                (() => number = new RationalNumber(1, 0));
+        }
     }
 }
