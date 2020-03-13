@@ -1,8 +1,7 @@
 ﻿using System;
-using InternalExtensions;
-using static InternalExtensions.RationalNumberExtensions;
+using System.Runtime.CompilerServices;
 
-
+[assembly: InternalsVisibleTo("RationalNumbers.Test")]
 namespace RationalNumbers
 {
     public struct RationalNumber : IRationalNumber // IComparable? IConvertible?
@@ -26,6 +25,8 @@ namespace RationalNumbers
             Denominator = denominator;
             //.ToProperNegativeForm(denominator);
 
+            //this.reduce();
+
         }
 
         public static IRationalNumber operator +(RationalNumber r1, RationalNumber r2) => r1.Add(r2);
@@ -48,6 +49,13 @@ namespace RationalNumbers
             int num = power >= 0 ? Numerator.Pow(power) : Denominator.Abs().Pow(power);
             int den = power >= 0 ? Denominator.Pow(power) : Numerator.Abs().Pow(power);
             return new RationalNumber(num, den);
+        }
+
+        internal IRationalNumber Reduce()
+        {
+            Numerator.DivideByGcd(this);
+            Denominator.DivideByGcd(this);
+            return this;
         }
 
         public double ExpReal(int baseNumber)
@@ -131,4 +139,6 @@ namespace RationalNumbers
         public static double ExpReal(this int intNumber, RationalNumber r)
             => r.ExpReal(intNumber);
     }
+
+
 }

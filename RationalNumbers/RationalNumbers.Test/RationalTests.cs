@@ -1,6 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using InternalExtensions;
 
 namespace RationalNumbers.Test
 {
@@ -231,7 +230,7 @@ namespace RationalNumbers.Test
             Assert.AreEqual(1, 2.ExpReal(new RationalNumber(0, 1)), 0.0000001);
         }
 
-        [Ignore("Skip")]
+        
         [TestMethod]
         public void Reduce_a_positive_rational_number_to_lowest_terms()
         {
