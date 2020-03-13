@@ -167,63 +167,64 @@ namespace RationalNumbers.Test
             Assert.AreEqual(new RationalNumber(0, 1), new RationalNumber(0, 1).Abs());
         }
 
-        [Ignore("Skip")]
+        
         [TestMethod]
         public void Raise_a_positive_rational_number_to_a_positive_integer_power()
         {
             Assert.AreEqual(new RationalNumber(1, 8), new RationalNumber(1, 2).ExpRational(3));
         }
 
-        [Ignore("Skip")]
+        
         [TestMethod]
         public void Raise_a_negative_rational_number_to_a_positive_integer_power()
         {
             Assert.AreEqual(new RationalNumber(-1, 8), new RationalNumber(-1, 2).ExpRational(3));
         }
 
-        [Ignore("Skip")]
+        
         [TestMethod]
         public void Raise_zero_to_an_integer_power()
         {
             Assert.AreEqual(new RationalNumber(0, 1), new RationalNumber(0, 1).ExpRational(5));
         }
 
-        [Ignore("Skip")]
+        
         [TestMethod]
         public void Raise_one_to_an_integer_power()
         {
             Assert.AreEqual(new RationalNumber(1, 1), new RationalNumber(1, 1).ExpRational(4));
         }
 
-        [Ignore("Skip")]
+        
         [TestMethod]
         public void Raise_a_positive_rational_number_to_the_power_of_zero()
         {
             Assert.AreEqual(new RationalNumber(1, 1), new RationalNumber(1, 2).ExpRational(0));
         }
 
-        [Ignore("Skip")]
+        
         [TestMethod]
         public void Raise_a_negative_rational_number_to_the_power_of_zero()
         {
             Assert.AreEqual(new RationalNumber(1, 1), new RationalNumber(-1, 2).ExpRational(0));
         }
 
-        [Ignore("Skip")]
+
+        
         [TestMethod]
         public void Raise_a_real_number_to_a_positive_rational_number()
         {
             Assert.AreEqual(16, 8.ExpReal(new RationalNumber(4, 3)), 0.0000001);
         }
 
-        [Ignore("Skip")]
+        
         [TestMethod]
         public void Raise_a_real_number_to_a_negative_rational_number()
         {
             Assert.AreEqual(0.33333334, 9.ExpReal(new RationalNumber(-1, 2)), 0.0000001);
         }
 
-        [Ignore("Skip")]
+        
         [TestMethod]
         public void Raise_a_real_number_to_a_zero_rational_number()
         {

@@ -45,12 +45,14 @@ namespace RationalNumbers
 
         public IRationalNumber ExpRational(int power)
         {
-            throw new NotImplementedException("You need to implement this function.");
+            int num = power >= 0 ? Numerator.Pow(power) : Denominator.Abs().Pow(power);
+            int den = power >= 0 ? Denominator.Pow(power) : Numerator.Abs().Pow(power);
+            return new RationalNumber(num, den);
         }
 
         public double ExpReal(int baseNumber)
         {
-            throw new NotImplementedException("You need to implement this function.");
+            return Math.Pow(baseNumber, (double) Numerator / Denominator);
         }
 
         /**
@@ -127,8 +129,6 @@ namespace RationalNumbers
     {
         // exponentiate real number to the rational number power
         public static double ExpReal(this int intNumber, RationalNumber r)
-        {
-            return 0; // replace with correct call
-        }
+            => r.ExpReal(intNumber);
     }
 }
