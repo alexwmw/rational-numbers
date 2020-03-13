@@ -58,6 +58,13 @@ namespace RationalNumbers
             return this;
         }
 
+        internal IRationalNumber ToProperNegativeForm()
+        {
+            Numerator.ToProperNegativeForm(this);
+            Denominator.ToProperNegativeForm(this);
+            return this;
+        }
+
         public double ExpReal(int baseNumber)
         {
             return Math.Pow(baseNumber, (double) Numerator / Denominator);
@@ -133,11 +140,28 @@ namespace RationalNumbers
         // plus any other methods you deem necessary to meet the specification
     }
 
-    public static class IntNumberExtension
+    public static class IntNumberExtensions
     {
         // exponentiate real number to the rational number power
         public static double ExpReal(this int intNumber, RationalNumber r)
             => r.ExpReal(intNumber);
+
+        internal static int DivideByGcd(this int intNumber, IRationalNumber number)
+            => intNumber / GcdOf(number.Numerator, number.Denominator);
+
+        internal static int ToProperNegativeForm(this int intNumber, IRationalNumber number)
+            => number.Denominator < 0 ? -intNumber : intNumber;
+
+        internal static int Pow(this int intNumber, int power)
+            => (int)Math.Pow(intNumber, power);
+
+        internal static int Abs(this int intNumber)
+            => Math.Abs(intNumber);
+
+        private static int GcdOf(int numerator, int denominator)
+            => denominator == 0
+            ? numerator
+            : GcdOf(denominator, numerator % denominator);
     }
 
 
