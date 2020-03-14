@@ -2,12 +2,17 @@
 
 namespace RationalNumbers
 {
-    class Program
+    public static class Program
     {
         static void Main()
         {
-            IRationalNumber r = new RationalNumber(3, 5);
+            RationalNumber r = new RationalNumber(3, 6);
             Console.WriteLine($"This is the rational number: {r}");
+
+            new RationalNumber(3,6).Reduce();
+
+            Console.WriteLine($"This is the rational number: {r} reduced");
+
         }
     }
 }

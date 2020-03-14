@@ -12,17 +12,17 @@ namespace RationalNumbers
         public RationalNumber(int numerator) : this(numerator, 1)
         { }
 
+
         public RationalNumber(int numerator, int denominator)
         {
             if (denominator == 0)
                 throw new DivideByZeroException();
 
-            Numerator = numerator;
-            Denominator = denominator;
+            int tempNumerator = numerator.DivideByGcd(numerator, denominator);
+            int tempDenominator = denominator.DivideByGcd(numerator,denominator);
 
-            this.Reduce();
-            this.ToProperNegativeForm();
-
+            Numerator = tempNumerator.ToProperNegativeForm(tempDenominator);
+            Denominator = tempDenominator.ToProperNegativeForm(tempDenominator);
         }
 
         public static IRationalNumber operator +(RationalNumber r) => r;
@@ -44,6 +44,8 @@ namespace RationalNumbers
         public static bool operator <(RationalNumber r1, RationalNumber r2) => (decimal) r1 < r2;
 
         public static bool operator >(RationalNumber r1, RationalNumber r2) => (decimal) r1 > r2;
+
+        public static implicit operator int(RationalNumber r) => (int)(decimal) r;
 
         public static implicit operator decimal(RationalNumber r) => (decimal) r.Numerator / r.Denominator;
 
@@ -68,16 +70,9 @@ namespace RationalNumbers
 
         internal IRationalNumber Reduce()
         {
-            Numerator.DivideByGcd(this);
-            Denominator.DivideByGcd(this);
-            return this;
-        }
-
-        internal IRationalNumber ToProperNegativeForm()
-        {
-            if (Denominator < 0)
-                return new RationalNumber(-Numerator, -Denominator);
-            return this;
+            int num = Numerator.DivideByGcd(Numerator, Denominator);
+            int den = Denominator.DivideByGcd(Numerator, Denominator);
+            return new RationalNumber(num, den);
         }
 
         public double ExpReal(int baseNumber)
@@ -85,11 +80,7 @@ namespace RationalNumbers
             return Math.Pow(baseNumber, (double) Numerator / Denominator);
         }
 
-        /**
-         * The sum of two rational numbers r1 = a1/b1 and r2 = a2/b2 is r1 + r2 =
-         * a1/b1 + a2/b2 =
-         * (a1 * b2 + a2 * b1) / (b1 * b2).
-         */
+
         public IRationalNumber Add(IRationalNumber number) {
             int num = this.Numerator * number.Denominator + this.Denominator * number.Numerator;
             int den = this.Denominator * number.Denominator;
@@ -97,10 +88,7 @@ namespace RationalNumbers
         }
 
 
-        /**
-         * The difference of two rational numbers r1 = a1/b1 and r2 = a2/b2 is r1 - r2 =
-         * a1/b1 - a2/b2 = (a1 * b2 - a2 * b1) / (b1 * b2).
-         */
+
         public IRationalNumber Subtract(IRationalNumber number)
         {
             int num = this.Numerator * number.Denominator - this.Denominator * number.Numerator;
@@ -108,10 +96,7 @@ namespace RationalNumbers
             return new RationalNumber(num, den);
         }
 
-        /**
-         * The product (multiplication) of two rational numbers r1 = a1/b1 and r2 =
-         * a2/b2 is r1 * r2 = (a1 * a2) / (b1 * b2).
-         */
+
         public IRationalNumber Multiply(IRationalNumber number)
         {
             int num = this.Numerator * number.Numerator;
@@ -120,10 +105,7 @@ namespace RationalNumbers
         }
 
 
-        /**
-         * Dividing a rational number r1 = a1/b1 by another r2 = a2/b2 is r1 / r2 =
-         * (a1 * b2) / (a2 * b1) if a2 * b1 is not zero.
-         */
+
         public IRationalNumber Divide(IRationalNumber number)
         {
             if (number.Numerator == 0)
@@ -146,7 +128,8 @@ namespace RationalNumbers
 
             IRationalNumber number = obj as IRationalNumber;
             return this.Numerator * number.Denominator
-                == this.Denominator * number.Numerator;
+                == this.Denominator * number.Numerator
+                && this.Numerator == number.Numerator;
         }
 
         public override int GetHashCode()
@@ -154,9 +137,5 @@ namespace RationalNumbers
             int prime = 31;
             return (Numerator / Denominator + Denominator / Numerator) * prime;
         }
-
-        // plus any other methods you deem necessary to meet the specification
     }
-
-
 }

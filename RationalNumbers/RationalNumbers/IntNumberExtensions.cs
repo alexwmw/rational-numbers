@@ -13,12 +13,15 @@ namespace RationalNumbers
         internal static int Abs(this int intNumber)
             => Math.Abs(intNumber);
 
-        internal static int DivideByGcd(this int intNumber, IRationalNumber number)
-            => intNumber / GcdOf(number.Numerator, number.Denominator);
+        internal static int DivideByGcd(this int intNumber, int num, int den)
+            => intNumber / GcdOf(num, den);
 
         private static int GcdOf(int numerator, int denominator)
             => denominator == 0
             ? numerator
             : GcdOf(denominator, numerator % denominator);
+
+        internal static int ToProperNegativeForm(this int intNumber, int den)
+            => den < 0 ? -intNumber : intNumber;
     }
 }
