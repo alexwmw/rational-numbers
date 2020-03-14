@@ -274,11 +274,182 @@ namespace RationalNumbers.Test
 
 
         [TestMethod]
-        public void ThrowsExceptionIfDenominatorIsZero()
+        public void Throws_exception_if_denominator_is_zero()
         {
             RationalNumber number;
             Assert.ThrowsException<DivideByZeroException>
                 (() => number = new RationalNumber(1, 0));
         }
+
+        [TestMethod]
+        public void Throws_exception_if_denominator_is_zero_and_numerator_is_negative()
+        {
+            RationalNumber number;
+            Assert.ThrowsException<DivideByZeroException>
+                (() => number = new RationalNumber(-2, 0));
+        }
+
+        [TestMethod]
+        public void Throws_exception_if_divide_by_RationalNumber_equal_to_zero()
+        {
+            Assert.ThrowsException<DivideByZeroException>
+                (() => new RationalNumber(3, 4) / new RationalNumber(0, 1));
+        }
+
+        [TestMethod]
+        public void Single_integer_constructor()
+        {
+            Assert.AreEqual(new RationalNumber(3, 1), new RationalNumber(3));
+        }
+
+        [TestMethod]
+        public void Single_integer_constructor_with_zero()
+        {
+            Assert.AreEqual(new RationalNumber(0, 1), new RationalNumber(0));
+        }
+
+        [TestMethod]
+        public void Single_integer_constructor_with_negative_number()
+        {
+            Assert.AreEqual(new RationalNumber(-4, 1), new RationalNumber(-4));
+        }
+
+        [TestMethod]
+        public void Two_negative_parts_is_equal_to_two_positive_parts()
+        {
+            Assert.AreEqual(new RationalNumber(4, 4), new RationalNumber(-4, -4));
+        }
+
+        [TestMethod]
+        public void Equality_operator_true_if_values_are_equal()
+        {
+            Assert.AreEqual(true, new RationalNumber(1, 4) == new RationalNumber(2, 8));
+        }
+
+        [TestMethod]
+        public void Equality_operator_false_if_values_are_not_equal()
+        {
+            Assert.AreEqual(false, new RationalNumber(1, 3) == new RationalNumber(3, 1));
+        }
+
+        [TestMethod]
+        public void Inequality_operator_false_if_values_are_equal()
+        {
+            Assert.AreEqual(false, new RationalNumber(1, 4) != new RationalNumber(2, 8));
+        }
+
+        [TestMethod]
+        public void Inequality_operator_true_if_values_are_not_equal()
+        {
+            Assert.AreEqual(true, new RationalNumber(1, 3) != new RationalNumber(3, 1));
+        }
+
+        [TestMethod]
+        public void GreaterThan_operator_is_true()
+        {
+            Assert.AreEqual(true, new RationalNumber(1, 3) > new RationalNumber(1, 6));
+        }
+
+        [TestMethod]
+        public void GreaterThan_operator_is_false()
+        {
+            Assert.AreEqual(false, new RationalNumber(1, 3) > new RationalNumber(3, 1));
+        }
+
+        [TestMethod]
+        public void LessThan_operator_is_true()
+        {
+            Assert.AreEqual(true, new RationalNumber(1, 3) < new RationalNumber(1, 2));
+        }
+
+        [TestMethod]
+        public void LessThan_operator_is_false()
+        {
+            Assert.AreEqual(false, new RationalNumber(1, 3) < new RationalNumber(1, 6));
+        }
+
+        [TestMethod]
+        public void To_decimal_true()
+        {
+            Assert.AreEqual((decimal)0.5, new RationalNumber(1, 2));
+        }
+
+        [TestMethod]
+        public void To_decimal_false()
+        {
+            Assert.AreNotEqual((decimal)0.6, new RationalNumber(1, 2));
+        }
+
+
+        [TestMethod]
+        public void To_double_true()
+        {
+            Assert.AreEqual(0.5, new RationalNumber(1, 2));
+        }
+
+        [TestMethod]
+        public void To_double_false()
+        {
+            Assert.AreNotEqual(0.6, new RationalNumber(1, 2));
+        }
+
+        [TestMethod] 
+        public void Is_bool_true_if_true()
+        {
+            Assert.AreEqual(true, new RationalNumber(1, 2));
+        }
+
+        [TestMethod] 
+        public void Is_bool_false_if_false()
+        {
+            Assert.AreEqual(false, new RationalNumber(0, 1));
+        }
+
+        [TestMethod]
+        public void Proper_negative_form_if_negative_denominator()
+        {
+            RationalNumber r = new RationalNumber(1, -2);
+            Assert.AreEqual(-1, r.ToProperNegativeForm().Numerator);
+            Assert.AreEqual(2, r.ToProperNegativeForm().Denominator);
+        }
+
+        [TestMethod]
+        public void Proper_negative_form_if_both_parts_negative()
+        {
+            RationalNumber r = new RationalNumber(-1, -2);
+            Assert.AreEqual(1, r.ToProperNegativeForm().Numerator);
+            Assert.AreEqual(2, r.ToProperNegativeForm().Denominator);
+        }
+
+        [TestMethod]
+        public void Proper_negative_form_if_both_parts_postive()
+        {
+            RationalNumber r = new RationalNumber(1, 2);
+            Assert.AreEqual(1, r.ToProperNegativeForm().Numerator);
+            Assert.AreEqual(2, r.ToProperNegativeForm().Denominator);
+        }
+
+        [TestMethod]
+        public void Proper_negative_form_if_negative_numerator()
+        {
+            RationalNumber r = new RationalNumber(-1, 2);
+            Assert.AreEqual(-1, r.ToProperNegativeForm().Numerator);
+            Assert.AreEqual(2, r.ToProperNegativeForm().Denominator);
+        }
+
+        [TestMethod]
+        public void Negative_sign_applied_to_numerator_internally()
+        {
+            Assert.AreEqual(-1, new RationalNumber(1, -3).Numerator);
+        }
+
+        [TestMethod]
+        public void Reduced_upon_contruction()
+        {
+            RationalNumber r = new RationalNumber(4, 8);
+            Assert.AreEqual(1, r.Numerator);
+            Assert.AreEqual(2, r.Denominator);
+        }
+
     }
 }

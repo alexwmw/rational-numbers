@@ -4,26 +4,30 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("RationalNumbers.Test")]
 namespace RationalNumbers
 {
-    public struct RationalNumber : IRationalNumber // IComparable? IConvertible?
+    public struct RationalNumber : IRationalNumber
     {
         public int Numerator { get; private set; }
         public int Denominator { get; private set; }
 
         public RationalNumber(int numerator) : this(numerator, 1)
-        {
-            
-        }
+        { }
 
         public RationalNumber(int numerator, int denominator)
         {
             if (denominator == 0)
-                throw new DivideByZeroException(); //todo: test this
+                throw new DivideByZeroException();
 
             Numerator = numerator;
-
             Denominator = denominator;
 
+            this.Reduce();
+            this.ToProperNegativeForm();
+
         }
+
+        public static IRationalNumber operator +(RationalNumber r) => r;
+
+        public static IRationalNumber operator -(RationalNumber r) => new RationalNumber(-r.Numerator, r.Denominator);
 
         public static IRationalNumber operator +(RationalNumber r1, RationalNumber r2) => r1.Add(r2);
 
@@ -32,6 +36,21 @@ namespace RationalNumbers
         public static IRationalNumber operator *(RationalNumber r1, RationalNumber r2) => r1.Multiply(r2);
 
         public static IRationalNumber operator /(RationalNumber r1, RationalNumber r2) => r1.Divide(r2);
+
+        public static bool operator ==(RationalNumber r1, RationalNumber r2) => Equals(r1, r2);
+
+        public static bool operator !=(RationalNumber r1, RationalNumber r2) => !Equals(r1, r2);
+
+        public static bool operator <(RationalNumber r1, RationalNumber r2) => (decimal) r1 < r2;
+
+        public static bool operator >(RationalNumber r1, RationalNumber r2) => (decimal) r1 > r2;
+
+        public static implicit operator decimal(RationalNumber r) => (decimal) r.Numerator / r.Denominator;
+
+        public static implicit operator double(RationalNumber r) => (double) r.Numerator / r.Denominator;
+
+        public static implicit operator bool(RationalNumber r) => r.Numerator != 0; 
+
 
         public IRationalNumber Abs()
         {
@@ -51,6 +70,13 @@ namespace RationalNumbers
         {
             Numerator.DivideByGcd(this);
             Denominator.DivideByGcd(this);
+            return this;
+        }
+
+        internal IRationalNumber ToProperNegativeForm()
+        {
+            if (Denominator < 0)
+                return new RationalNumber(-Numerator, -Denominator);
             return this;
         }
 
@@ -100,6 +126,9 @@ namespace RationalNumbers
          */
         public IRationalNumber Divide(IRationalNumber number)
         {
+            if (number.Numerator == 0)
+                throw new DivideByZeroException();
+
             int num = this.Numerator * number.Denominator;
             int den = number.Numerator * this.Denominator;
             return new RationalNumber(num, den);
@@ -127,27 +156,6 @@ namespace RationalNumbers
         }
 
         // plus any other methods you deem necessary to meet the specification
-    }
-
-    public static class IntNumberExtensions
-    {
-        // exponentiate real number to the rational number power
-        public static double ExpReal(this int intNumber, RationalNumber r)
-            => r.ExpReal(intNumber);
-
-        internal static int Pow(this int intNumber, int power)
-            => (int)Math.Pow(intNumber, power);
-
-        internal static int Abs(this int intNumber)
-            => Math.Abs(intNumber);
-
-        internal static int DivideByGcd(this int intNumber, IRationalNumber number)
-            => intNumber / GcdOf(number.Numerator, number.Denominator);
-
-        private static int GcdOf(int numerator, int denominator)
-            => denominator == 0
-            ? numerator
-            : GcdOf(denominator, numerator % denominator);
     }
 
 

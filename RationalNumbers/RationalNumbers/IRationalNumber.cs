@@ -10,9 +10,11 @@ namespace RationalNumbers
         IRationalNumber Abs();
         IRationalNumber ExpRational(int power);
         double ExpReal(int baseNumber);
-        // anything else you need to add?
+        
 
         int Numerator { get; }
         int Denominator { get; }
+
+
     }
 }
