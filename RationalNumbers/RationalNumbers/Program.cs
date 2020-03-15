@@ -9,9 +9,7 @@ namespace RationalNumbers
             RationalNumber r = new RationalNumber(3, 6);
             Console.WriteLine($"This is the rational number: {r}");
 
-            new RationalNumber(3,6).Reduce();
 
-            Console.WriteLine($"This is the rational number: {r} reduced");
 
         }
     }
