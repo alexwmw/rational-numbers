@@ -19,7 +19,7 @@ namespace RationalNumbers
         IRationalNumber Divide(IRationalNumber number);
         IRationalNumber Abs();
         IRationalNumber ExpRational(int power);
-        double ExpReal(int baseNumber);
+        double ExpReal(double baseNumber);
         
 
         int Numerator { get; }

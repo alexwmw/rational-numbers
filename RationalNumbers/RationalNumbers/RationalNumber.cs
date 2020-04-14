@@ -20,14 +20,14 @@ namespace RationalNumbers
         public int Denominator { get; private set; }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="RationalNumber"/> class, with a default denominator of 1.
+        /// Constructor. Initialises a new instance of the <see cref="RationalNumber"/> class, with a default denominator of 1.
         /// </summary>
         /// <param name="numerator">The integer numerator of the rational number.</param>
         public RationalNumber(int numerator) : this(numerator, 1)
         { }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="RationalNumber"/> class.
+        /// Constructor. Initialises a new instance of the <see cref="RationalNumber"/> class.
         /// </summary>
         /// <param name="numerator">The integer numerator of the rational number.</param>
         /// <param name="denominator">The integer denominator of the rational number.</param>
@@ -36,11 +36,11 @@ namespace RationalNumbers
         /// </exception>
         public RationalNumber(int numerator, int denominator)
         {
-            if (denominator == 0)
-                throw new DivideByZeroException();
+            int tempDenominator = denominator == 0
+                ? throw new DivideByZeroException()
+                : denominator.DivideByGcd(numerator, denominator);
 
             int tempNumerator = numerator.DivideByGcd(numerator, denominator);
-            int tempDenominator = denominator.DivideByGcd(numerator,denominator);
 
             Numerator = tempNumerator.ToProperNegativeForm(tempDenominator);
             Denominator = tempDenominator.ToProperNegativeForm(tempDenominator);
@@ -87,78 +87,51 @@ namespace RationalNumbers
         /// </summary>
         /// <param name="power">An integer exponent.</param>
         /// <returns>A new rational number.</returns>
-        public IRationalNumber ExpRational(int power)
-            => new RationalNumber(
+        public IRationalNumber ExpRational(int power) => new RationalNumber(
                 power >= 0 ? Numerator.Pow(power) : Denominator.Abs().Pow(power),
-                power >= 0 ? Denominator.Pow(power) : Numerator.Abs().Pow(power)
-                );
-
+                power >= 0 ? Denominator.Pow(power) : Numerator.Abs().Pow(power));
 
         /// <summary>
         /// Returns a rational number representing this instance reduced to it's lowest form.
         /// </summary>
         /// <returns>A new rational number.</returns>
-        internal IRationalNumber Reduce()
-        {
-            return new RationalNumber(
+        internal IRationalNumber Reduce() => new RationalNumber(
                            Numerator.DivideByGcd(Numerator, Denominator),
-                           Denominator.DivideByGcd(Numerator, Denominator)
-                           );
-        }
-
+                           Denominator.DivideByGcd(Numerator, Denominator));
 
         /// <summary>
-        /// Returns a double-precision floating point number representing the given base integer raised to the power of this instance.
+        /// Returns a double-precision floating point number representing the given base real number (double) raised to the power of this instance.
         /// </summary>
         /// <param name="baseNumber">An integer base.</param>
         /// <returns>A double-precision floating point number.</returns>
-        public double ExpReal(int baseNumber) => Math.Pow(baseNumber, (double) Numerator / Denominator);
-
-
+        public double ExpReal(double baseNumber) => Math.Pow(baseNumber, (double) Numerator / Denominator);
 
         /// <summary>
         /// Returns a rational number representing the sum of this instance and the given rational number.
         /// </summary>
         /// <param name="number">A rational number to be added to this instance.</param>
         /// <returns>A new rational number.</returns>
-        public IRationalNumber Add(IRationalNumber number)
-        {
-            return new RationalNumber(
+        public IRationalNumber Add(IRationalNumber number) => new RationalNumber(
                            Numerator * number.Denominator + Denominator * number.Numerator,
-                           Denominator * number.Denominator
-                           );
-        }
-
-
+                           Denominator * number.Denominator);
 
         /// <summary>
         /// Returns a rational number representing the difference between this instance and the given rational number.
         /// </summary>
         /// <param name="number">A rational number to be subtracted from this instance<./param>
         /// <returns>A new rational number.</returns>
-        public IRationalNumber Subtract(IRationalNumber number)
-        {
-            return new RationalNumber(
+        public IRationalNumber Subtract(IRationalNumber number) => new RationalNumber(
                            Numerator * number.Denominator - Denominator * number.Numerator,
-                           Denominator * number.Denominator
-                           );
-        }
-
+                           Denominator * number.Denominator);
 
         /// <summary>
         /// Returns a rational number representing the product of this instance and the given rational number.
         /// </summary>
         /// <param name="number">A rational number to be multiplied by this instance.</param>
         /// <returns>A new rational number.</returns>
-        public IRationalNumber Multiply(IRationalNumber number)
-        {
-            return new RationalNumber(
+        public IRationalNumber Multiply(IRationalNumber number) => new RationalNumber(
                            Numerator * number.Numerator,
-                           Denominator * number.Denominator
-                           );
-        }
-
-
+                           Denominator * number.Denominator);
 
         /// <summary>
         /// Returns a rational number representing the quotient of this instance and the given rational number.
@@ -168,16 +141,12 @@ namespace RationalNumbers
         /// <exception cref="DivideByZeroException">
         /// When <paramref name="number"/> has a value of zero.
         /// </exception>
-        public IRationalNumber Divide(IRationalNumber number)
-        {
-            if (number.Numerator == 0)
-                throw new DivideByZeroException();
-
-            return new RationalNumber(
+        public IRationalNumber Divide(IRationalNumber number) =>
+            number.Numerator == 0 ? throw new DivideByZeroException()
+            : new RationalNumber(
                 Numerator * number.Denominator,
-                number.Numerator * Denominator
-                );
-        }
+                number.Numerator * Denominator);
+        
 
         /// <summary>
         /// Converts the numeric value of this rational number to it's equivalent string representation, in the format "n/d".

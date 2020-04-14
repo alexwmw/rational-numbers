@@ -213,21 +213,21 @@ namespace RationalNumbers.Test
         [TestMethod]
         public void Raise_a_real_number_to_a_positive_rational_number()
         {
-            Assert.AreEqual(16, 8.ExpReal(new RationalNumber(4, 3)), 0.0000001);
+            Assert.AreEqual(16, 8.0.ExpReal(new RationalNumber(4, 3)), 0.0000001);
         }
 
 
         [TestMethod]
         public void Raise_a_real_number_to_a_negative_rational_number()
         {
-            Assert.AreEqual(0.33333334, 9.ExpReal(new RationalNumber(-1, 2)), 0.0000001);
+            Assert.AreEqual(0.33333334, 9.0.ExpReal(new RationalNumber(-1, 2)), 0.0000001);
         }
 
 
         [TestMethod]
         public void Raise_a_real_number_to_a_zero_rational_number()
         {
-            Assert.AreEqual(1, 2.ExpReal(new RationalNumber(0, 1)), 0.0000001);
+            Assert.AreEqual(1, 2.0.ExpReal(new RationalNumber(0, 1)), 0.0000001);
         }
 
 

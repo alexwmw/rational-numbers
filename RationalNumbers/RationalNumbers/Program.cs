@@ -13,21 +13,21 @@ namespace RationalNumbers
             Console.WriteLine($"This is the rational number r2: {r2}");
 
             // Addition
+            Console.WriteLine();
 
             r1 += r2;
             Console.WriteLine($"The sum of r1 and r2, stored in r1, is: {r1}");
 
             // Subtraction
-
+            Console.WriteLine();
             Console.WriteLine($"This is the rational number r1: {r1}");
             Console.WriteLine($"This is the rational number r2: {r2}");
 
             r1 -= r2;
             Console.WriteLine($"r1 minus r2, stored in r2, is: {r2}");
 
-
             // Division
-
+            Console.WriteLine();
             Console.WriteLine($"This is the rational number r1: {r1}");
             Console.WriteLine($"This is the rational number r2: {r2}");
 
@@ -35,36 +35,43 @@ namespace RationalNumbers
             Console.WriteLine($"r1 divided by r2, stored in r1, is: {r1}");
 
             // Multiplication
-
+            Console.WriteLine();
             Console.WriteLine($"This is the rational number r1: {r1}");
             Console.WriteLine($"This is the rational number r2: {r2}");
 
             r2 *= r1;
             Console.WriteLine($"r1 multipied by r2, stored in r2, is: {r2}");
 
-
             // Absolute value of a given rational number
+            Console.WriteLine();
+            r1 = new RationalNumber(-3, 4);
+            Console.WriteLine($"This is the rational number r1: {r1}");
 
-            // Exponentiation of a given rational number to an integer power
+            r2 = r1.Abs();
+            Console.WriteLine($"The absolute value of rational number r1 is: {r2}");
 
-            // Exponentiation of a given rational number to a real(floating - point) power
+            // Exponentiation rational
+            Console.WriteLine();
+            Console.WriteLine($"This is the rational number r1: {r1}");
+
+            r2 = r1.ExpRational(4);
+            Console.WriteLine($"4 to the power r1 is: {r2}");
+
+            // Exponentiation real
+            Console.WriteLine();
+            Console.WriteLine($"This is the rational number r1: {r1}");
+
+            double e = r1.ExpReal(0.3);
+            Console.WriteLine($"r1 to the power 0.3 is: {e}");
 
             // Exponentiation of a real number to a rational number
+            Console.WriteLine();
+            Console.WriteLine($"This is the rational number r1: {r1}");
+            double n = 2.5;
+            Console.WriteLine($"This is the real number n: {n}");
 
-
-            // All rational numbers should be immutable.
-
-            // The denominator may not be zero.
-
-            // The denominator should never be negative.
-
-            // Zero should be represented as 0 / 1.
-
-
-            // Always be reduced to lowest terms.
-
-
-
+            n = n.ExpReal(r1);
+            Console.WriteLine($"This is the real number n to the power of r1: {n}");
 
 
         }
