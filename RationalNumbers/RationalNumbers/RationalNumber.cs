@@ -79,12 +79,8 @@ namespace RationalNumbers
         /// Returns a rational number representing the absolute value of this instance.
         /// </summary>
         /// <returns>A new rational number.</returns>
-        public IRationalNumber Abs()
-        {
-            int num = Numerator.Abs();
-            int den = Denominator.Abs();
-            return new RationalNumber(num, den);
-        }
+        public IRationalNumber Abs() => new RationalNumber(Numerator.Abs(), Denominator.Abs());
+        
 
         /// <summary>
         /// Returns a rational number representing this instance (the base) raised to the power of the specified integer (the exponent).
@@ -92,11 +88,11 @@ namespace RationalNumbers
         /// <param name="power">An integer exponent.</param>
         /// <returns>A new rational number.</returns>
         public IRationalNumber ExpRational(int power)
-        {
-            int num = power >= 0 ? Numerator.Pow(power) : Denominator.Abs().Pow(power);
-            int den = power >= 0 ? Denominator.Pow(power) : Numerator.Abs().Pow(power);
-            return new RationalNumber(num, den);
-        }
+            => new RationalNumber(
+                power >= 0 ? Numerator.Pow(power) : Denominator.Abs().Pow(power),
+                power >= 0 ? Denominator.Pow(power) : Numerator.Abs().Pow(power)
+                );
+
 
         /// <summary>
         /// Returns a rational number representing this instance reduced to it's lowest form.
@@ -104,31 +100,35 @@ namespace RationalNumbers
         /// <returns>A new rational number.</returns>
         internal IRationalNumber Reduce()
         {
-            int num = Numerator.DivideByGcd(Numerator, Denominator);
-            int den = Denominator.DivideByGcd(Numerator, Denominator);
-            return new RationalNumber(num, den);
+            return new RationalNumber(
+                           Numerator.DivideByGcd(Numerator, Denominator),
+                           Denominator.DivideByGcd(Numerator, Denominator)
+                           );
         }
+
 
         /// <summary>
         /// Returns a double-precision floating point number representing the given base integer raised to the power of this instance.
         /// </summary>
         /// <param name="baseNumber">An integer base.</param>
         /// <returns>A double-precision floating point number.</returns>
-        public double ExpReal(int baseNumber)
-            => Math.Pow(baseNumber, (double) Numerator / Denominator);
-       
-        
+        public double ExpReal(int baseNumber) => Math.Pow(baseNumber, (double) Numerator / Denominator);
+
+
 
         /// <summary>
         /// Returns a rational number representing the sum of this instance and the given rational number.
         /// </summary>
         /// <param name="number">A rational number to be added to this instance.</param>
         /// <returns>A new rational number.</returns>
-        public IRationalNumber Add(IRationalNumber number) {
-            int num = this.Numerator * number.Denominator + this.Denominator * number.Numerator;
-            int den = this.Denominator * number.Denominator;
-            return new RationalNumber(num, den);
+        public IRationalNumber Add(IRationalNumber number)
+        {
+            return new RationalNumber(
+                           Numerator * number.Denominator + Denominator * number.Numerator,
+                           Denominator * number.Denominator
+                           );
         }
+
 
 
         /// <summary>
@@ -138,10 +138,12 @@ namespace RationalNumbers
         /// <returns>A new rational number.</returns>
         public IRationalNumber Subtract(IRationalNumber number)
         {
-            int num = this.Numerator * number.Denominator - this.Denominator * number.Numerator;
-            int den = this.Denominator * number.Denominator;
-            return new RationalNumber(num, den);
+            return new RationalNumber(
+                           Numerator * number.Denominator - Denominator * number.Numerator,
+                           Denominator * number.Denominator
+                           );
         }
+
 
         /// <summary>
         /// Returns a rational number representing the product of this instance and the given rational number.
@@ -150,10 +152,12 @@ namespace RationalNumbers
         /// <returns>A new rational number.</returns>
         public IRationalNumber Multiply(IRationalNumber number)
         {
-            int num = this.Numerator * number.Numerator;
-            int den = this.Denominator * number.Denominator;
-            return new RationalNumber(num, den);
+            return new RationalNumber(
+                           Numerator * number.Numerator,
+                           Denominator * number.Denominator
+                           );
         }
+
 
 
         /// <summary>
@@ -169,19 +173,17 @@ namespace RationalNumbers
             if (number.Numerator == 0)
                 throw new DivideByZeroException();
 
-            int num = this.Numerator * number.Denominator;
-            int den = number.Numerator * this.Denominator;
-            return new RationalNumber(num, den);
+            return new RationalNumber(
+                Numerator * number.Denominator,
+                number.Numerator * Denominator
+                );
         }
 
         /// <summary>
         /// Converts the numeric value of this rational number to it's equivalent string representation, in the format "n/d".
         /// </summary>
         /// <returns>A string.</returns>
-        public override string ToString()
-        {
-            return $"{this.Numerator}/{this.Denominator}";
-        }
+        public override string ToString() => $"{this.Numerator}/{this.Denominator}";
 
         /// <summary>
         /// Returns a value indicating whether this instance and a specifed rational number object represent the same value. 
@@ -194,9 +196,9 @@ namespace RationalNumbers
                 return false;
 
             IRationalNumber number = obj as IRationalNumber;
-            return this.Numerator * number.Denominator
-                == this.Denominator * number.Numerator
-                && this.Numerator == number.Numerator;
+            return
+                Numerator * number.Denominator == Denominator * number.Numerator
+                && Numerator == number.Numerator;
         }
 
         /// <summary>
